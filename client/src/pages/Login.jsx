@@ -35,7 +35,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/teachers/register",
+        "https://teachpro-7hqj.onrender.com/api/teachers/register",
         { name, email, password, subjects },
         {
           headers: {
@@ -70,7 +70,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/teachers/login",
+        "https://teachpro-7hqj.onrender.com/api/teachers/login",
         { email, password },
         {
           headers: {

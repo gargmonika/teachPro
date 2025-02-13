@@ -27,12 +27,12 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const studentResponse = await axios.get(
-          `http://localhost:4000/api/students/getStudents/${teacherName}`
+          `https://teachpro-7hqj.onrender.com/api/students/getStudents/${teacherName}`
         );
         setStudents(studentResponse.data);
 
         const subjectResponse = await axios.get(
-          `http://localhost:4000/api/subjects/getAllSubjects/${teacherName}`
+          `https://teachpro-7hqj.onrender.com/api/subjects/getAllSubjects/${teacherName}`
         );
         setSubjects(subjectResponse.data.subjects);
       } catch (error) {
@@ -60,7 +60,7 @@ const Dashboard = () => {
 
     try {
       await axios.post(
-        "http://localhost:4000/api/observations/addObservation",
+        "https://teachpro-7hqj.onrender.com/api/observations/addObservation",
         data
       );
       alert("Observation saved successfully!");
