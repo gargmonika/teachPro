@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -13,14 +12,14 @@ export default function TeachingSetupForm() {
     subjectType: "core",
     selectedSubject: "",
     customSubject: "",
-    curriculum: "Toronto District School Board"
+    curriculum: "Toronto District School Board",
   });
   const [isGradeOpen, setIsGradeOpen] = useState(false);
   const [isCoreOpen, setIsCoreOpen] = useState(false);
   const [isAdditionalOpen, setIsAdditionalOpen] = useState(false);
   const [isCurriculumOpen, setIsCurriculumOpen] = useState(false);
   //need teacherName from url
-  const teacherName= window.location.pathname.split("/")[2];
+  const teacherName = window.location.pathname.split("/")[2];
   console.log(teacherName);
   const navigate = useNavigate();
 
@@ -29,22 +28,25 @@ export default function TeachingSetupForm() {
       console.log("Please select a subject.");
       return;
     }
-  
+
     if (formData.subjectType === "custom" && !formData.customSubject.trim()) {
       console.log("Please enter a custom subject.");
       return;
     }
-  
+
     const finalData = {
       teacherName: teacherName, // Replace with actual teacher's name
-      name: formData.subjectType === "custom" ? formData.customSubject : formData.selectedSubject,
+      name:
+        formData.subjectType === "custom"
+          ? formData.customSubject
+          : formData.selectedSubject,
     };
-  
+
     console.log("Saving data:", finalData);
-  
+
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/subjects/createSubject",
+        "https://teachpro-7hqj.onrender.com/api/subjects/createSubject",
         finalData
       );
       console.log("Response:", response.data);
@@ -53,9 +55,10 @@ export default function TeachingSetupForm() {
     }
 
     // Redirect to the next page if response is successful and pass the teacherName and subjectName
-   navigate("/addstudents", { state: { teacherName, subjectName: finalData.name } });
-   
-    };
+    navigate("/addstudents", {
+      state: { teacherName, subjectName: finalData.name },
+    });
+  };
 
   return (
     <div className="min-h-full bg-gray-50 flex">
@@ -76,7 +79,9 @@ export default function TeachingSetupForm() {
             <div className="space-y-3">
               {/* Grade Selection */}
               <div className="space-y-1">
-                <label className="block text-sm text-gray-500">Select Grade</label>
+                <label className="block text-sm text-gray-500">
+                  Select Grade
+                </label>
                 <div className="relative">
                   <button
                     onClick={() => setIsGradeOpen(!isGradeOpen)}
@@ -93,7 +98,7 @@ export default function TeachingSetupForm() {
                             key={grade}
                             className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
                             onClick={() => {
-                              setFormData(prev => ({ ...prev, grade }));
+                              setFormData((prev) => ({ ...prev, grade }));
                               setIsGradeOpen(false);
                             }}
                           >
@@ -116,13 +121,25 @@ export default function TeachingSetupForm() {
                   <div className="flex items-start space-x-2">
                     <div
                       className="relative flex items-center"
-                      onClick={() => setFormData(prev => ({ ...prev, subjectType: "core", selectedSubject: "" }))}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          subjectType: "core",
+                          selectedSubject: "",
+                        }))
+                      }
                     >
                       <input
                         type="radio"
                         name="subject"
                         checked={formData.subjectType === "core"}
-                        onChange={() => setFormData(prev => ({ ...prev, subjectType: "core", selectedSubject: "" }))}
+                        onChange={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            subjectType: "core",
+                            selectedSubject: "",
+                          }))
+                        }
                         className="w-3 h-3 text-green-500 border-gray-300 focus:ring-green-500"
                       />
                     </div>
@@ -135,10 +152,17 @@ export default function TeachingSetupForm() {
                           onClick={() => setIsCoreOpen(!isCoreOpen)}
                           disabled={formData.subjectType !== "core"}
                           className={`w-full px-3 py-1.5 text-sm text-left border rounded-md flex items-center justify-between ${
-                            formData.subjectType === "core" ? "bg-white" : "bg-gray-50"
+                            formData.subjectType === "core"
+                              ? "bg-white"
+                              : "bg-gray-50"
                           }`}
                         >
-                          <span>{formData.subjectType === "core" && formData.selectedSubject ? formData.selectedSubject : "All Core Subjects"}</span>
+                          <span>
+                            {formData.subjectType === "core" &&
+                            formData.selectedSubject
+                              ? formData.selectedSubject
+                              : "All Core Subjects"}
+                          </span>
                           <ChevronDown className="h-4 w-4" />
                         </button>
                         {isCoreOpen && formData.subjectType === "core" && (
@@ -149,7 +173,10 @@ export default function TeachingSetupForm() {
                                   key={subject}
                                   className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
                                   onClick={() => {
-                                    setFormData(prev => ({ ...prev, selectedSubject: subject }));
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      selectedSubject: subject,
+                                    }));
                                     setIsCoreOpen(false);
                                   }}
                                 >
@@ -167,13 +194,25 @@ export default function TeachingSetupForm() {
                   <div className="flex items-start space-x-2">
                     <div
                       className="relative flex items-center"
-                      onClick={() => setFormData(prev => ({ ...prev, subjectType: "additional", selectedSubject: "" }))}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          subjectType: "additional",
+                          selectedSubject: "",
+                        }))
+                      }
                     >
                       <input
                         type="radio"
                         name="subject"
                         checked={formData.subjectType === "additional"}
-                        onChange={() => setFormData(prev => ({ ...prev, subjectType: "additional", selectedSubject: "" }))}
+                        onChange={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            subjectType: "additional",
+                            selectedSubject: "",
+                          }))
+                        }
                         className="w-3 h-3 text-green-500 border-gray-300 focus:ring-green-500"
                       />
                     </div>
@@ -186,30 +225,41 @@ export default function TeachingSetupForm() {
                           onClick={() => setIsAdditionalOpen(!isAdditionalOpen)}
                           disabled={formData.subjectType !== "additional"}
                           className={`w-full px-3 py-1.5 text-sm text-left border rounded-md flex items-center justify-between ${
-                            formData.subjectType === "additional" ? "bg-white" : "bg-gray-50"
+                            formData.subjectType === "additional"
+                              ? "bg-white"
+                              : "bg-gray-50"
                           }`}
                         >
-                          <span>{formData.subjectType === "additional" && formData.selectedSubject ? formData.selectedSubject : "All Additional Subjects"}</span>
+                          <span>
+                            {formData.subjectType === "additional" &&
+                            formData.selectedSubject
+                              ? formData.selectedSubject
+                              : "All Additional Subjects"}
+                          </span>
                           <ChevronDown className="h-4 w-4" />
                         </button>
-                        {isAdditionalOpen && formData.subjectType === "additional" && (
-                          <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-                            {["Art", "Music", "Physical Education"].map(
-                              (subject) => (
-                                <button
-                                  key={subject}
-                                  className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
-                                  onClick={() => {
-                                    setFormData(prev => ({ ...prev, selectedSubject: subject }));
-                                    setIsAdditionalOpen(false);
-                                  }}
-                                >
-                                  {subject}
-                                </button>
-                              )
-                            )}
-                          </div>
-                        )}
+                        {isAdditionalOpen &&
+                          formData.subjectType === "additional" && (
+                            <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+                              {["Art", "Music", "Physical Education"].map(
+                                (subject) => (
+                                  <button
+                                    key={subject}
+                                    className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
+                                    onClick={() => {
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        selectedSubject: subject,
+                                      }));
+                                      setIsAdditionalOpen(false);
+                                    }}
+                                  >
+                                    {subject}
+                                  </button>
+                                )
+                              )}
+                            </div>
+                          )}
                       </div>
                     </div>
                   </div>
@@ -218,13 +268,25 @@ export default function TeachingSetupForm() {
                   <div className="flex items-start space-x-2">
                     <div
                       className="relative flex items-center"
-                      onClick={() => setFormData(prev => ({ ...prev, subjectType: "custom", selectedSubject: "" }))}
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          subjectType: "custom",
+                          selectedSubject: "",
+                        }))
+                      }
                     >
                       <input
                         type="radio"
                         name="subject"
                         checked={formData.subjectType === "custom"}
-                        onChange={() => setFormData(prev => ({ ...prev, subjectType: "custom", selectedSubject: "" }))}
+                        onChange={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            subjectType: "custom",
+                            selectedSubject: "",
+                          }))
+                        }
                         className="w-3 h-3 text-green-500 border-gray-300 focus:ring-green-500"
                       />
                     </div>
@@ -237,9 +299,16 @@ export default function TeachingSetupForm() {
                         placeholder="Enter the Subject"
                         disabled={formData.subjectType !== "custom"}
                         value={formData.customSubject}
-                        onChange={(e) => setFormData(prev => ({ ...prev, customSubject: e.target.value }))}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            customSubject: e.target.value,
+                          }))
+                        }
                         className={`w-full px-3 py-1.5 text-sm border rounded-md ${
-                          formData.subjectType === "custom" ? "bg-white" : "bg-gray-50"
+                          formData.subjectType === "custom"
+                            ? "bg-white"
+                            : "bg-gray-50"
                         }`}
                       />
                     </div>
@@ -262,20 +331,24 @@ export default function TeachingSetupForm() {
                   </button>
                   {isCurriculumOpen && (
                     <div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-                      {["Toronto District School Board", "Other School Board"].map(
-                        (board) => (
-                          <button
-                            key={board}
-                            className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
-                            onClick={() => {
-                              setFormData(prev => ({ ...prev, curriculum: board }));
-                              setIsCurriculumOpen(false);
-                            }}
-                          >
-                            {board}
-                          </button>
-                        )
-                      )}
+                      {[
+                        "Toronto District School Board",
+                        "Other School Board",
+                      ].map((board) => (
+                        <button
+                          key={board}
+                          className="w-full px-3 py-1.5 text-sm text-left hover:bg-gray-50"
+                          onClick={() => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              curriculum: board,
+                            }));
+                            setIsCurriculumOpen(false);
+                          }}
+                        >
+                          {board}
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -283,7 +356,7 @@ export default function TeachingSetupForm() {
             </div>
 
             {/* Save Button */}
-            <button 
+            <button
               className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition-colors text-sm"
               onClick={handleSave}
             >

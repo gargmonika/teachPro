@@ -1,13 +1,17 @@
-
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
 
 const AddStudentsPage = () => {
   const location = useLocation();
   const navigate = useNavigate(); // Initialize useNavigate
-  const { teacherName, subjectName } = location.state || { teacherName: '', subjectName: '' };
+  const { teacherName, subjectName } = location.state || {
+    teacherName: "",
+    subjectName: "",
+  };
 
-  const [students, setStudents] = useState([{ name: '', grade: '', subject: subjectName }]);
+  const [students, setStudents] = useState([
+    { name: "", grade: "", subject: subjectName },
+  ]);
 
   const handleInputChange = (index, event) => {
     const values = [...students];
@@ -16,7 +20,7 @@ const AddStudentsPage = () => {
   };
 
   const handleAddStudent = () => {
-    setStudents([...students, { name: '', grade: '', subject: subjectName }]);
+    setStudents([...students, { name: "", grade: "", subject: subjectName }]);
   };
 
   const handleSubmit = async (event) => {
@@ -25,26 +29,29 @@ const AddStudentsPage = () => {
       const studentData = {
         name: student.name,
         grade: student.grade,
-        picture: '', // You can add a picture upload feature if needed
+        picture: "", // You can add a picture upload feature if needed
         teacherName: teacherName,
-        subjects: [student.subject]
+        subjects: [student.subject],
       };
 
       try {
-        const response = await fetch('http://localhost:4000/api/students/addStudent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(studentData),
-        });
+        const response = await fetch(
+          "https://teachpro-7hqj.onrender.com/api/students/addStudent",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(studentData),
+          }
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const result = await response.json();
-        console.log('Student added:', result);
+        console.log("Student added:", result);
       } catch (error) {
-        console.error('Error adding student:', error);
+        console.error("Error adding student:", error);
       }
     }
 
